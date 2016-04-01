@@ -1,0 +1,1454 @@
+Public Class closedtk
+
+    Public factor1 As Double 'Factor de conversión InH2O
+    Public factor2 As Double 'Factor de conversión Psi
+    Public factor3 As Double 'Factor de conversión mBar
+    Public factor4 As Double 'Factor de conversión mBar
+    Public Calc1 As Double ' Calculo para determinar LRV
+    Public Calc2 As Double ' Calculo para determinar URV
+    Public factor5 As Double 'Factor de conversión In
+    Public factor6 As Double
+    Public factor7 As Double
+    Public factor8 As Double
+    Public factor9 As Double
+    Public factor10 As Double
+    Public factor11 As Double
+    Public H1LOW As Double
+    Public H1HIGH As Double
+    Public H1HIGH1 As Double
+    Public lrvtext As Double
+    Public urvtext As Double
+ 
+    Public Sub DIF()
+        H1.Text = CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))
+    End Sub
+
+    Private Property MsgBox As String
+
+    Private Sub Form2_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        EU1.Items.Add("In")
+        EU1.Items.Add("mm")
+        EU1.Items.Add("Cm")
+        EU1.Items.Add("Mts")
+        EU1.Items.Add("Ft")
+
+        'Variables dentro de  combobox de unidades de ingenieria presión LRV
+
+        EULRV.Items.Add("InH2O")
+        EULRV.Items.Add("Psi")
+        EULRV.Items.Add("mBar")
+        EULRV.Items.Add("mmH2O")
+
+    End Sub
+
+    'Instrucción usada para ocultar el menú Tk cerrado y visualizar el menú principal.
+
+    Private Sub Atras_Click(sender As Object, e As EventArgs) Handles Atras.Click
+        Me.Hide()
+        Main.Show()
+
+    End Sub
+
+    Public sub Unitlenght()
+        If EU1.SelectedItem = "In" Then
+            
+        End If
+
+
+    End Sub
+
+
+    'Las siguientes instrucciones son usadas para que cuando en el combobox de unidad de ing, 
+    'seleccionemos alguna unidad de longitud automaticamente en los label se refresque automaticamente el valor.
+
+
+    Public Sub EU1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles EU1.SelectedIndexChanged
+
+        If CAJATEXTO.Text = "cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+        ElseIf CAJATEXTO.Text = "supresión de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(L1.Text)) - CDbl(Val(LT.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 + factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+
+        ElseIf CAJATEXTO.Text = "elevación de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 - factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+
+        ElseIf EU1.SelectedItem = "mm" Then
+            Label2.Text = "mm"
+            Label7.Text = "mm"
+            Label8.Text = "mm"
+            Label10.Text = "mm"
+            Label12.Text = "mm"
+            Label13.Text = "mm"
+            Label15.Text = "mm"
+            factor5 = 25.4
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = Calc2 * factor1 / factor5
+            URV.Text = urvtext
+
+        ElseIf EU1.SelectedItem = "Cm" Then
+            Label2.Text = "Cm"
+            Label7.Text = "Cm"
+            Label8.Text = "Cm"
+            Label10.Text = "Cm"
+            Label12.Text = "Cm"
+            Label13.Text = "Cm"
+            Label15.Text = "Cm"
+            factor5 = 2.54
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+        ElseIf EU1.SelectedItem = "Mts" Then
+            Label2.Text = "Mts"
+            Label7.Text = "Mts"
+            Label8.Text = "Mts"
+            Label10.Text = "Mts"
+            Label12.Text = "Mts"
+            Label13.Text = "Mts"
+            Label15.Text = "Mts"
+            factor5 = 0.0254
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+        ElseIf EU1.SelectedItem = "Ft" Then
+            Label2.Text = "Ft"
+            Label7.Text = "Ft"
+            Label8.Text = "Ft"
+            Label10.Text = "Ft"
+            Label12.Text = "Ft"
+            Label13.Text = "Ft"
+            Label15.Text = "Ft"
+            factor5 = 0.08333333
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+        End If
+
+    End Sub
+    'Boton salir del programa
+    Public Sub Salir_Click(sender As Object, e As EventArgs)
+        End
+    End Sub
+
+    'Las siguientes instrucciones son usadas para que cuando en el combobox seleccionemos algun fluido,
+    'automaticamente en el textbox correspondiente, me de una visualización del valor de la SG para tal fluido.
+
+    Public Sub SGLO_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SGLO.SelectedIndexChanged
+
+        If SGLO.SelectedItem = "FC 77" Then
+            SGLOW.Text = "1.77"
+        ElseIf SGLO.SelectedItem = "Fluoruaceite MO 10" Then
+            SGLOW.Text = "1.91"
+        ElseIf SGLO.SelectedItem = "Fluoro oil MO 10" Then
+            SGLOW.Text = "1.91"
+        ElseIf SGLO.SelectedItem = "Fomblim" Then
+            SGLOW.Text = "1.87"
+        ElseIf SGLO.SelectedItem = "Glicerina 50 % y Agua 50 %" Then
+            SGLOW.Text = "1.13"
+        ElseIf SGLO.SelectedItem = "50% Glycerine 50 % water" Then
+            SGLOW.Text = "1.13"
+        ElseIf SGLO.SelectedItem = "Halocarbono" Then
+            SGLOW.Text = "1.85"
+        ElseIf SGLO.SelectedItem = "Halocarbon" Then
+            SGLOW.Text = "1.85"
+        ElseIf SGLO.SelectedItem = "Krytox" Then
+            SGLOW.Text = "1.88"
+        ElseIf SGLO.SelectedItem = "Propilen glycol y agua" Then
+            SGLOW.Text = "1.02"
+        ElseIf SGLO.SelectedItem = "Propilen glycol and water" Then
+            SGLOW.Text = "1.02"
+        ElseIf SGLO.SelectedItem = "Neobee M 20" Then
+            SGLOW.Text = "0.92"
+        ElseIf SGLO.SelectedItem = "Silicona 200 10 Cst" Then
+            SGLOW.Text = "0.934"
+        ElseIf SGLO.SelectedItem = "Silicone 200 10 Cst" Then
+            SGLOW.Text = "0.934"
+        ElseIf SGLO.SelectedItem = "Silicona 200 aplicaciones Vacio" Then
+            SGLOW.Text = "0.934"
+        ElseIf SGLO.SelectedItem = "Silicone 200 vacuum aplication" Then
+            SGLOW.Text = "0.934"
+        ElseIf SGLO.SelectedItem = "Silicona 704" Then
+            SGLOW.Text = "1.07"
+        ElseIf SGLO.SelectedItem = "Silicone 704" Then
+            SGLOW.Text = "1.07"
+        ElseIf SGLO.SelectedItem = "Silicona 704 aplicaciones Vacio" Then
+            SGLOW.Text = "1.07"
+        ElseIf SGLO.SelectedItem = "Silicone 704 vacuum aplication" Then
+            SGLOW.Text = "1.07"
+        ElseIf SGLO.SelectedItem = "Silicona 705" Then
+            SGLOW.Text = "1.09"
+        ElseIf SGLO.SelectedItem = "Silicone 705" Then
+            SGLOW.Text = "1.09"
+        ElseIf SGLO.SelectedItem = "Silicona 705 aplicaciones Vacio" Then
+            SGLOW.Text = "1.09"
+        ElseIf SGLO.SelectedItem = "Silicone 705 vacuum aplication" Then
+            SGLOW.Text = "1.09"
+        ElseIf SGLO.SelectedItem = "Syltherm 800" Then
+            SGLOW.Text = "0.934"
+        ElseIf SGLO.SelectedItem = "Syltherm XLT" Then
+            SGLOW.Text = "0.85"
+        ElseIf SGLO.SelectedItem = "Ultratherm 805" Then
+            SGLOW.Text = "1.2"
+        ElseIf SGLO.SelectedItem = "Ultratherm 805 aplicaciones Vacio" Then
+            SGLOW.Text = "1.2"
+        ElseIf SGLO.SelectedItem = "Ultratherm 805 vacuum aplication" Then
+            SGLOW.Text = "1.2"
+        ElseIf SGLO.SelectedItem = "Definida por el usuario" Then
+            SGLOW.Text = ""
+        ElseIf SGLO.SelectedItem = "Custom value" Then
+            SGLOW.Text = ""
+        End If
+    End Sub
+    'Las siguientes instrucciones son usadas para que cuando en el combobox seleccionemos algun fluido,
+    'automaticamente en el textbox correspondiente, me de una visualización del valor de la SG para tal fluido.
+
+    Public Sub SGHI_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SGHI.SelectedIndexChanged
+
+        If SGHI.SelectedItem = "FC 77" Then
+            SGHIGH.Text = "1.77"
+        ElseIf SGHI.SelectedItem = "Fluoruaceite MO 10" Then
+            SGHIGH.Text = "1.91"
+        ElseIf SGHI.SelectedItem = "Fluoro oil MO 10" Then
+            SGHIGH.Text = "1.91"
+        ElseIf SGHI.SelectedItem = "Fomblim" Then
+            SGHIGH.Text = "1.87"
+        ElseIf SGHI.SelectedItem = "Glicerina 50 % y Agua 50 %" Then
+            SGHIGH.Text = "1.13"
+        ElseIf SGHI.SelectedItem = "50% Glycerine 50 % water" Then
+            SGHIGH.Text = "1.13"
+        ElseIf SGHI.SelectedItem = "Halocarbono" Then
+            SGHIGH.Text = "1.85"
+        ElseIf SGHI.SelectedItem = "Halocarbon" Then
+            SGHIGH.Text = "1.85"
+        ElseIf SGHI.SelectedItem = "Krytox" Then
+            SGHIGH.Text = "1.88"
+        ElseIf SGHI.SelectedItem = "Propilen glycol y agua" Then
+            SGHIGH.Text = "1.02"
+        ElseIf SGHI.SelectedItem = "Propilen glycol and water" Then
+            SGHIGH.Text = "1.02"
+        ElseIf SGHI.SelectedItem = "Neobee M 20" Then
+            SGHIGH.Text = "0.92"
+        ElseIf SGHI.SelectedItem = "Silicona 200 10 Cst" Then
+            SGHIGH.Text = "0.934"
+        ElseIf SGHI.SelectedItem = "Silicone 200 10 Cst" Then
+            SGHIGH.Text = "0.934"
+        ElseIf SGHI.SelectedItem = "Silicona 200 aplicaciones Vacio" Then
+            SGHIGH.Text = "0.934"
+        ElseIf SGHI.SelectedItem = "Silicone 200 vacuum aplication" Then
+            SGHIGH.Text = "0.934"
+        ElseIf SGHI.SelectedItem = "Silicona 704" Then
+            SGHIGH.Text = "1.07"
+        ElseIf SGHI.SelectedItem = "Silicone 704" Then
+            SGHIGH.Text = "1.07"
+        ElseIf SGHI.SelectedItem = "Silicona 704 aplicaciones Vacio" Then
+            SGHIGH.Text = "1.07"
+        ElseIf SGHI.SelectedItem = "Silicone 704 vacuum aplication" Then
+            SGHIGH.Text = "1.07"
+        ElseIf SGHI.SelectedItem = "Silicona 705" Then
+            SGHIGH.Text = "1.09"
+        ElseIf SGHI.SelectedItem = "Silicone 705" Then
+            SGHIGH.Text = "1.09"
+        ElseIf SGHI.SelectedItem = "Silicona 705 aplicaciones Vacio" Then
+            SGHIGH.Text = "1.09"
+        ElseIf SGHI.SelectedItem = "Silicone 705 vacuum aplication" Then
+            SGHIGH.Text = "1.09"
+        ElseIf SGHI.SelectedItem = "Syltherm 800" Then
+            SGHIGH.Text = "0.934"
+        ElseIf SGHI.SelectedItem = "Syltherm XLT" Then
+            SGHIGH.Text = "0.85"
+        ElseIf SGHI.SelectedItem = "Ultratherm 805" Then
+            SGHIGH.Text = "1.2"
+        ElseIf SGHI.SelectedItem = "Ultratherm 805 aplicaciones Vacio" Then
+            SGHIGH.Text = "1.2"
+        ElseIf SGHI.SelectedItem = "Ultratherm 805 vacuum aplication" Then
+            SGHIGH.Text = "1.2"
+        ElseIf SGHI.SelectedItem = "Definida por el usuario" Then
+            SGHIGH.Text = ""
+        ElseIf SGHI.SelectedItem = "Custom value" Then
+            SGHIGH.Text = ""
+        End If
+
+    End Sub
+
+    'La siguiente instrucción es usada para que en el Textbox L6, se muestre el resultado inmediatamente
+    'de acuerdo al calculo usado, en nuestro caso es una resta.
+    'La función Cdbl es un tipo de dato doble de -1,79769313486231570E+308 a -4,94065645841246544E-324  
+    'para valores negativos; 
+    'de 4,94065645841246544E-324 a 1,79769313486231570E+308 para valores positivos.
+
+    Public Sub Nivelopera()
+        L6.Text = CDbl(Val(L5.Text)) - CDbl(Val(L4.Text))
+
+        If CAJATEXTO.Text = "cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+        ElseIf CAJATEXTO.Text = "supresión de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(L1.Text)) - CDbl(Val(LT.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 + factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+        ElseIf CAJATEXTO.Text = "elevación de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 - factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+
+
+        ElseIf EULRV.SelectedItem = "Psi" Then
+            factor2 = 0.03613
+            Label21.Text = "Psi"
+            Label22.Text = "Psi"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor2)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor2)) / factor5
+            URV.Text = urvtext
+
+
+        ElseIf EULRV.SelectedItem = "mBar" Then
+            factor3 = 2.49082
+            Label21.Text = "mBar"
+            Label22.Text = "mBar"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor3)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor3)) / factor5
+            URV.Text = urvtext
+
+        ElseIf EULRV.SelectedItem = "mmH2O" Then
+            factor4 = 25.4
+            Label21.Text = "mmH2O"
+            Label22.Text = "mmH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor4)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor4)) / factor5
+            URV.Text = urvtext
+        End If
+    End Sub
+
+    Public Sub L4_TextChanged(sender As Object, e As EventArgs) Handles L4.TextChanged
+        Nivelopera()
+
+    End Sub
+
+    Public Sub L5_TextChanged(sender As Object, e As EventArgs) Handles L5.TextChanged
+        Nivelopera()
+
+    End Sub
+    'La siguiente instrucción es usada para que en el Textbox L3, se muestre el resultado inmediatamente
+    'de acuerdo al calculo usado, en nuestro caso es una resta.
+    'La función Cdbl es un tipo de dato doble de -1,79769313486231570E+308 a -4,94065645841246544E-324  
+    'para valores negativos; 
+    'de 4,94065645841246544E-324 a 1,79769313486231570E+308 para valores positivos.
+
+    Public Sub calcL3()
+        L3.Text = CDbl(Val(L2.Text)) - CDbl(Val(L1.Text))
+
+        If CAJATEXTO.Text = "cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+        ElseIf CAJATEXTO.Text = "supresión de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(L1.Text)) - CDbl(Val(LT.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 + factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+        ElseIf CAJATEXTO.Text = "elevación de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 - factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+        ElseIf EULRV.SelectedItem = "Psi" Then
+            factor2 = 0.03613
+            Label21.Text = "Psi"
+            Label22.Text = "Psi"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor2)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor2)) / factor5
+            URV.Text = urvtext
+
+
+        ElseIf EULRV.SelectedItem = "mBar" Then
+            factor3 = 2.49082
+            Label21.Text = "mBar"
+            Label22.Text = "mBar"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor3)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor3)) / factor5
+            URV.Text = urvtext
+
+
+        ElseIf EULRV.SelectedItem = "mmH2O" Then
+            factor4 = 25.4
+            Label21.Text = "mmH2O"
+            Label22.Text = "mmH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor4)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor4)) / factor5
+            URV.Text = urvtext
+
+        End If
+
+    End Sub
+
+    Public Sub L1_TextChanged(sender As Object, e As EventArgs) Handles L1.TextChanged
+        DIF()
+        calcL3()
+
+    End Sub
+
+    Public Sub L2_TextChanged(sender As Object, e As EventArgs) Handles L2.TextChanged
+        calcL3()
+
+    End Sub
+
+
+
+    'Instrucción encargada de leer dato de checkbox, si este esta marcado, el texto en el textbox
+    'SGLOW.text sera igual a SGHIGH.text.
+
+    Private Sub SGHIGH_TextChanged(sender As Object, e As EventArgs) Handles SGHIGH.TextChanged
+        If Main.Identico.Checked = True Then
+            SGLOW.Text = SGHIGH.Text
+
+        End If
+
+    End Sub
+
+    Private Sub EULRV_SelectedIndexChanged(sender As Object, e As EventArgs) Handles EULRV.SelectedIndexChanged
+
+        If CAJATEXTO.Text = "cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+        ElseIf CAJATEXTO.Text = "supresión de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(L1.Text)) - CDbl(Val(LT.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 + factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+        ElseIf CAJATEXTO.Text = "elevación de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 - factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+
+        ElseIf EULRV.SelectedItem = "Psi" Then
+            factor2 = 0.03613
+            Label21.Text = "Psi"
+            Label22.Text = "Psi"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor2)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor2)) / factor5
+            URV.Text = urvtext
+
+
+        ElseIf EULRV.SelectedItem = "mBar" Then
+            factor3 = 2.49082
+            Label21.Text = "mBar"
+            Label22.Text = "mBar"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor3)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor3)) / factor5
+            URV.Text = urvtext
+
+        ElseIf EULRV.SelectedItem = "mmH2O" Then
+            factor4 = 25.4
+            Label21.Text = "mmH2O"
+            Label22.Text = "mmH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor4)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor4)) / factor5
+            URV.Text = urvtext
+
+        ElseIf EU1.SelectedItem = "mm" Then
+            Label2.Text = "mm"
+            Label7.Text = "mm"
+            Label8.Text = "mm"
+            Label10.Text = "mm"
+            Label12.Text = "mm"
+            Label13.Text = "mm"
+            Label15.Text = "mm"
+            factor5 = 25.399999999999999
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = Calc2 * factor1 / factor5
+            URV.Text = urvtext
+
+        ElseIf EU1.SelectedItem = "Cm" Then
+            Label2.Text = "Cm"
+            Label7.Text = "Cm"
+            Label8.Text = "Cm"
+            Label10.Text = "Cm"
+            Label12.Text = "Cm"
+            Label13.Text = "Cm"
+            Label15.Text = "Cm"
+            factor5 = 2.54
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+        ElseIf EU1.SelectedItem = "Mts" Then
+            Label2.Text = "Mts"
+            Label7.Text = "Mts"
+            Label8.Text = "Mts"
+            Label10.Text = "Mts"
+            Label12.Text = "Mts"
+            Label13.Text = "Mts"
+            Label15.Text = "Mts"
+            factor5 = 0.025399999999999999
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+        ElseIf EU1.SelectedItem = "Ft" Then
+            Label2.Text = "Ft"
+            Label7.Text = "Ft"
+            Label8.Text = "Ft"
+            Label10.Text = "Ft"
+            Label12.Text = "Ft"
+            Label13.Text = "Ft"
+            Label15.Text = "Ft"
+            factor5 = 0.083333329999999997
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+        End If
+    End Sub
+
+
+    Private Sub SGLOW_TextChanged(sender As Object, e As EventArgs) Handles SGLOW.TextChanged
+        If CAJATEXTO.Text = "cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+
+        ElseIf CAJATEXTO.Text = "supresión de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(L1.Text)) - CDbl(Val(LT.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 + factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+        ElseIf CAJATEXTO.Text = "elevación de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 - factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+        ElseIf EULRV.SelectedItem = "Psi" Then
+            factor2 = 0.03613
+            Label21.Text = "Psi"
+            Label22.Text = "Psi"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor2)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor2)) / factor5
+            URV.Text = urvtext
+
+
+        ElseIf EULRV.SelectedItem = "mBar" Then
+            factor3 = 2.49082
+            Label21.Text = "mBar"
+            Label22.Text = "mBar"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor3)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + lrvtext
+            urvtext = (CDbl(Calc2) * CDbl(factor3)) / factor5
+            URV.Text = urvtext
+
+
+        ElseIf EULRV.SelectedItem = "mmH2O" Then
+            factor4 = 25.4
+            Label21.Text = "mmH2O"
+            Label22.Text = "mmH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor4)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor4)) / factor5
+            URV.Text = urvtext
+        End If
+    End Sub
+    '
+
+    Private Sub Densfluid_TextChanged(sender As Object, e As EventArgs) Handles Densfluid.TextChanged
+        If CAJATEXTO.Text = "cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+
+        ElseIf CAJATEXTO.Text = "supresión de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(L1.Text)) - CDbl(Val(LT.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 + factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+        ElseIf CAJATEXTO.Text = "elevación de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 - factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+
+        ElseIf EULRV.SelectedItem = "Psi" Then
+            factor2 = 0.03613
+            Label21.Text = "Psi"
+            Label22.Text = "Psi"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor2)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor2)) / factor5
+            URV.Text = urvtext
+
+
+        ElseIf EULRV.SelectedItem = "mBar" Then
+            factor3 = 2.49082
+            Label21.Text = "mBar"
+            Label22.Text = "mBar"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor3)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor3)) / factor5
+            URV.Text = urvtext
+
+
+        ElseIf EULRV.SelectedItem = "mmH2O" Then
+            factor4 = 25.4
+            Label21.Text = "mmH2O"
+            Label22.Text = "mmH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor4)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor4)) / factor5
+            URV.Text = urvtext
+        End If
+    End Sub
+
+    Private Sub LT_TextChanged_1(sender As Object, e As EventArgs) Handles LT.TextChanged
+        DIF()
+    End Sub
+
+    Private Sub texto()
+
+        If H1.Text > 0 Then
+            CAJATEXTO.Text = "elevación de cero"
+        ElseIf H1.Text = 0 Then
+            CAJATEXTO.Text = "cero"
+        ElseIf H1.Text < 0 Then
+            CAJATEXTO.Text = "supresión de cero"
+        End If
+
+    End Sub
+
+    Private Sub H1_TextChanged(sender As Object, e As EventArgs) Handles H1.TextChanged
+        texto()
+
+        If CAJATEXTO.Text = "cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+            factor7 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor6 = CDbl(Val(L3.Text)) * CDbl(Val(SGLOW.Text))
+            Calc1 = factor7 - factor6
+            lrvtext = (CDbl(Calc1) * CDbl(factor1)) / factor5
+            LRV.Text = lrvtext
+            factor8 = (CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text)))
+            Calc2 = factor8 + (CDbl(Calc1) * CDbl(factor1))
+            urvtext = (CDbl(Calc2) * CDbl(factor1)) / factor5
+            URV.Text = urvtext
+
+
+        ElseIf CAJATEXTO.Text = "supresión de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(L1.Text)) - CDbl(Val(LT.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 + factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+
+        ElseIf CAJATEXTO.Text = "elevación de cero" And EU1.SelectedItem = "In" And EULRV.SelectedItem = "InH2O" Then
+            Label2.Text = "In"
+            Label7.Text = "In"
+            Label8.Text = "In"
+            Label10.Text = "In"
+            Label12.Text = "In"
+            Label13.Text = "In"
+            Label15.Text = "In"
+            factor5 = 1
+            factor1 = 1
+            Label21.Text = "InH2O"
+            Label22.Text = "InH2O"
+
+            factor7 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGLOW.Text))
+            factor6 = (CDbl(Val(L1.Text)) - CDbl(Val(L2.Text))) * CDbl(Val(SGLOW.Text))
+            H1LOW = factor7 + factor6
+            factor8 = (CDbl(Val(L4.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(Densfluid.Text))
+            factor9 = (CDbl(Val(LT.Text)) - CDbl(Val(L1.Text))) * CDbl(Val(SGHIGH.Text))
+            H1HIGH = factor8 - factor9
+            lrvtext = H1HIGH + H1LOW
+            LRV.Text = lrvtext
+
+            H1HIGH1 = CDbl(Val(L6.Text)) * CDbl(Val(Densfluid.Text))
+            urvtext = H1HIGH1 + lrvtext
+            URV.Text = urvtext
+        End If
+
+    End Sub
+
+    Private Sub SalirToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SalirToolStripMenuItem.Click
+        End
+    End Sub
+
+    Public Sub InglesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InglesToolStripMenuItem.Click
+
+        GroupBox5.Text = "Reference fill fluid"
+        GroupBox4.Text = "Especific gravity Process fluid"
+        GroupBox3.Text = "Operation level"
+        GroupBox2.Text = "Calculation data"
+        GroupBox1.Text = "Calibration data"
+        Label1.Text = "Eng unit"
+        Label17.Text = "Minimum level (L4)"
+        Label16.Text = "Maximum level (L5)"
+        Label14.Text = "Operative leve (L6)"
+        Label18.Text = "Low side fill fluid"
+        Label20.Text = "High side fill fluid"
+        Label19.Text = "Eng unit"
+        Label30.Text = "Transmitter instalation type"
+        Label23.Text = "Process fluid"
+        EULRV.Text = "Eng unit selection"
+        EU1.Text = "Eng unit selection"
+        Atras.Text = "Back"
+        Limpiar.Text = "Clean"
+        ArchivoToolStripMenuItem.Text = "file"
+        AbrirToolStripMenuItem.Text = "Open file"
+        GuardarToolStripMenuItem.Text = "Save"
+        GuardarcomoToolStripMenuItem.Text = "Save As"
+        ImprimirToolStripMenuItem.Text = "Print"
+        SalirToolStripMenuItem.Text = "Exit"
+        OpcionesToolStripMenuItem.Text = "Options"
+        IdiomaToolStripMenuItem.Text = "Language"
+        InglesToolStripMenuItem.Text = "English"
+        EspañolToolStripMenuItem1.Text = "Spanish"
+        DiseñoToolStripMenuItem.Text = "Design"
+        ColorDelFondoToolStripMenuItem.Text = "Background color"
+        ColorDelTextoToolStripMenuItem.Text = "Color text"
+        TamañoDelTextoToolStripMenuItem.Text = "Letter size"
+        AyudaToolStripMenuItem.Text = "Help"
+        AcercaToolStripMenuItem.Text = "About"
+        VersiónToolStripMenuItem.Text = "Software version"
+        BibliografíaToolStripMenuItem.Text = "Bibliography"
+        MediciónNivelToolStripMenuItem.Text = "Level measurement: technology pressure "
+        MediciónInterfasePresiónDiferencialToolStripMenuItem.Text = "Interface measurement: technology pressure"
+        MediciónDomosToolStripMenuItem.Text = "Boiler level drum measurement "
+        HojaDeDatosToolStripMenuItem.Text = "Fill fluid datasheet"
+        FC77ToolStripMenuItem.Text = "FC 77"
+        FluoruaceiteMO10ToolStripMenuItem.Text = "Fluoro oil MO 10"
+        FomblimToolStripMenuItem.Text = "Fomblim"
+        Glicerin50Agua50ToolStripMenuItem.Text = "50% Glycerine 50 % water"
+        HalocarbonoToolStripMenuItem.Text = "Halocarbon"
+        KrytoxToolStripMenuItem.Text = "Krytox"
+        PropilenGlycolYAguaToolStripMenuItem.Text = "Propilen glycol and water"
+        NeobeeM20ToolStripMenuItem.Text = "Neobee M 20"
+        Silicona20010CstToolStripMenuItem.Text = "Silicone 200 10 Cst"
+        Silicona200AplicacionesVacioToolStripMenuItem.Text = "Silicone 200 vacuum aplication"
+        Silicona704ToolStripMenuItem.Text = "Silicone 704"
+        Silicona704AplicacionesVacioToolStripMenuItem.Text = "Silicone 704 vacuum aplication"
+        Silicona705ToolStripMenuItem.Text = "Silicone 705"
+        Silicona705AplicacionesVacioToolStripMenuItem.Text = "Silicone 705 vacuum aplication"
+        Syltherm800ToolStripMenuItem.Text = "Syltherm 800"
+        UltrathermToolStripMenuItem.Text = "Ultratherm 805"
+        Ultratherm805AplicacionesDeVacioToolStripMenuItem.Text = "Ultratherm 805 vacuum aplication"
+
+        SGLO.Items.Clear()
+        SGLO.Items.Add("FC 77")
+        SGLO.Items.Add("Fluoruaceite MO 10")
+        SGLO.Items.Add("Fomblim")
+        SGLO.Items.Add("50% Glycerine 50 % water")
+        SGLO.Items.Add("Halocarbon")
+        SGLO.Items.Add("Krytox")
+        SGLO.Items.Add("Propilen glycol and water")
+        SGLO.Items.Add("Neobee M 20")
+        SGLO.Items.Add("Silicone 200 10 Cst")
+        SGLO.Items.Add("Silicone 200 vacuum aplication")
+        SGLO.Items.Add("Silicone 704")
+        SGLO.Items.Add("Silicone 704 vacuum aplication")
+        SGLO.Items.Add("Silicone 705")
+        SGLO.Items.Add("Silicone 705 vacuum aplication")
+        SGLO.Items.Add("Syltherm 800")
+        SGLO.Items.Add("Syltherm XLT")
+        SGLO.Items.Add("Ultratherm 805")
+        SGLO.Items.Add("Ultratherm 805 vacuum aplication")
+        SGLO.Items.Add("Custom value")
+
+
+        'Instrucciones usadas para que los fluidos de llenado de los sellos remotos
+        'sean visualizados en los combobox de camara de alta.
+        SGHI.Items.Clear()
+        SGHI.Items.Add("FC 77")
+        SGHI.Items.Add("Fluoro oil MO 10")
+        SGHI.Items.Add("Fomblim")
+        SGHI.Items.Add("50% Glycerine 50 % water")
+        SGHI.Items.Add("Halocarbon")
+        SGHI.Items.Add("Krytox")
+        SGHI.Items.Add("Propilen glycol and water")
+        SGHI.Items.Add("Neobee M 20")
+        SGHI.Items.Add("Silicone 200 10 Cst")
+        SGHI.Items.Add("Silicone 200 vacuum aplication")
+        SGHI.Items.Add("Silicone 704")
+        SGHI.Items.Add("Silicone 704 vacuum aplication")
+        SGHI.Items.Add("Silicone 705")
+        SGHI.Items.Add("Silicone 705 vacuum aplication")
+        SGHI.Items.Add("Syltherm 800")
+        SGHI.Items.Add("Syltherm XLT")
+        SGHI.Items.Add("Ultratherm 805")
+        SGHI.Items.Add("Ultratherm 805 vacuum aplication")
+        SGHI.Items.Add("Custom value")
+
+
+    End Sub
+
+    Public Sub EspañolToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles EspañolToolStripMenuItem1.Click
+
+        GroupBox5.Text = "Gravedad especifica del fluido de referencia"
+        GroupBox4.Text = "Gravedad específica del fluido de proceso"
+        GroupBox3.Text = "Nivel de operación"
+        GroupBox2.Text = "Variables para Cálculo"
+        GroupBox1.Text = "Datos de calibración"
+        Label1.Text = "unidad de ingenieria"
+        Label17.Text = "Nivel minimo deseado (L4) "
+        Label16.Text = "Nivel maximo deseado (L5) "
+        Label14.Text = "Nivel operativo(L6)"
+        Label18.Text = "Gravedad específica cámara baja presión"
+        Label20.Text = "Gravedad específica cámara alta presión"
+        Label19.Text = "Unidad de ingenieria"
+        Label30.Text = "Tipo de instalación transmisor"
+        Label23.Text = "Gravedad específica del fluido"
+        EULRV.Text = "Seleccione unidad"
+        EU1.Text = "Seleccione unidad"
+        Atras.Text = "Atras"
+        Limpiar.Text = "Limpiar"
+        ArchivoToolStripMenuItem.Text = "Archivo"
+        AbrirToolStripMenuItem.Text = "Abrir archivo"
+        GuardarToolStripMenuItem.Text = "Guardar"
+        GuardarcomoToolStripMenuItem.Text = "Guardar como"
+        ImprimirToolStripMenuItem.Text = "Imprimir"
+        SalirToolStripMenuItem.Text = "Salir"
+        OpcionesToolStripMenuItem.Text = "Opciones"
+        IdiomaToolStripMenuItem.Text = "Idioma"
+        InglesToolStripMenuItem.Text = "Ingles"
+        EspañolToolStripMenuItem1.Text = "Español"
+        DiseñoToolStripMenuItem.Text = "Diseño"
+        ColorDelFondoToolStripMenuItem.Text = "Color del fondo"
+        ColorDelTextoToolStripMenuItem.Text = "Color del texto"
+        TamañoDelTextoToolStripMenuItem.Text = "Tamaño del texto"
+        AyudaToolStripMenuItem.Text = "Ayuda"
+        AcercaToolStripMenuItem.Text = "Acerca del desarrollador"
+        VersiónToolStripMenuItem.Text = "Versión del programa"
+        BibliografíaToolStripMenuItem.Text = "Bibliografía"
+        MediciónNivelToolStripMenuItem.Text = "Medición de nivel presión diferencial"
+        MediciónInterfasePresiónDiferencialToolStripMenuItem.Text = "Medición de interfase presión diferencial"
+        MediciónDomosToolStripMenuItem.Text = "Medición de nivel en domos de calderas"
+        HojaDeDatosToolStripMenuItem.Text = "Hoja de datos fluidos de llenado"
+        FC77ToolStripMenuItem.Text = "FC 77"
+        FluoruaceiteMO10ToolStripMenuItem.Text = "Fluoroaceite MO 10"
+        FomblimToolStripMenuItem.Text = "Fomblim"
+        Glicerin50Agua50ToolStripMenuItem.Text = "Glicerina 50 % agua 50 %"
+        HalocarbonoToolStripMenuItem.Text = "Halocarbono"
+        KrytoxToolStripMenuItem.Text = "Krytox"
+        PropilenGlycolYAguaToolStripMenuItem.Text = "Propilen glycol y agua"
+        NeobeeM20ToolStripMenuItem.Text = "Neobee M 20"
+        Silicona20010CstToolStripMenuItem.Text = "Silicona 200 10 Cst"
+        Silicona200AplicacionesVacioToolStripMenuItem.Text = "Silicona 200 aplicaciones de vacio"
+        Silicona704ToolStripMenuItem.Text = "Silicona 704"
+        Silicona704AplicacionesVacioToolStripMenuItem.Text = "Silicona 704 aplicaciones de vacio"
+        Silicona705ToolStripMenuItem.Text = "Silicona 705"
+        Silicona705AplicacionesVacioToolStripMenuItem.Text = "Silicona 705 aplicaciones vacio"
+        Syltherm800ToolStripMenuItem.Text = "Syltherm 800"
+        UltrathermToolStripMenuItem.Text = "Ultratherm 805"
+        Ultratherm805AplicacionesDeVacioToolStripMenuItem.Text = "Ultratherm 805 aplicaciones de vacio"
+
+
+        'Instrucciones usadas para que los fluidos de llenado de los sellos remotos
+        'sean visualizados en los combobox de camara de baja.
+
+        SGLO.Items.Clear()
+        SGLO.Items.Add("FC 77")
+        SGLO.Items.Add("Fluoruaceite MO 10")
+        SGLO.Items.Add("Fomblim")
+        SGLO.Items.Add("Glicerina 50 % y Agua 50 %")
+        SGLO.Items.Add("Halocarbono")
+        SGLO.Items.Add("Krytox")
+        SGLO.Items.Add("Propilen glycol y agua")
+        SGLO.Items.Add("Neobee M 20")
+        SGLO.Items.Add("Silicona 200 10 Cst")
+        SGLO.Items.Add("Silicona 200 aplicaciones Vacio")
+        SGLO.Items.Add("Silicona 704")
+        SGLO.Items.Add("Silicona 704 aplicaciones Vacio")
+        SGLO.Items.Add("Silicona 705")
+        SGLO.Items.Add("Silicona 705 aplicaciones Vacio")
+        SGLO.Items.Add("Syltherm 800")
+        SGLO.Items.Add("Syltherm XLT")
+        SGLO.Items.Add("Ultratherm 805")
+        SGLO.Items.Add("Ultratherm 805 aplicaciones Vacio")
+        SGLO.Items.Add("Definida por el usuario")
+
+        'Instrucciones usadas para que los fluidos de llenado de los sellos remotos
+        'sean visualizados en los combobox de camara de alta.
+        SGHI.Items.Clear()
+        SGHI.Items.Add("FC 77")
+        SGHI.Items.Add("Fluoruaceite MO 10")
+        SGHI.Items.Add("Fomblim")
+        SGHI.Items.Add("Glicerina 50 % y Agua 50 %")
+        SGHI.Items.Add("Halocarbono")
+        SGHI.Items.Add("Krytox")
+        SGHI.Items.Add("Propilen glycol y agua")
+        SGHI.Items.Add("Neobee M 20")
+        SGHI.Items.Add("Silicona 200 10 Cst")
+        SGHI.Items.Add("Silicona 200 aplicaciones Vacio")
+        SGHI.Items.Add("Silicona 704")
+        SGHI.Items.Add("Silicona 704 aplicaciones Vacio")
+        SGHI.Items.Add("Silicona 705")
+        SGHI.Items.Add("Silicona 705 aplicaciones Vacio")
+        SGHI.Items.Add("Syltherm 800")
+        SGHI.Items.Add("Syltherm XLT")
+        SGHI.Items.Add("Ultratherm 805")
+        SGHI.Items.Add("Ultratherm 805 aplicaciones Vacio")
+        SGHI.Items.Add("Definida por el usuario")
+
+    End Sub
+
+  
+End Class
